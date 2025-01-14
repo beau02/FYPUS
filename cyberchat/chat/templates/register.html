@@ -1,0 +1,84 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        body.register-page {
+            background-image: url("{% static 'images/login2.jpg' %}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+        }
+        /* Custom styling for form layout */
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .form-group input {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .form-group .form-control {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .form-group input[type="text"], .form-group input[type="password"], .form-group input[type="email"] {
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="register-page">
+    <div class="register-card">
+        <h2>Register</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="id_username">Username:</label>
+                {{ form.username }}
+            </div>
+
+            <div class="form-group">
+                <label for="id_email">Email Address:</label>
+                {{ form.email }}
+            </div>
+
+            <div class="form-group">
+                <label for="id_password">Password:</label>
+                {{ form.password }}
+            </div>
+
+            <div class="form-group">
+                <label for="id_confirm_password">Confirm Password:</label>
+                {{ form.confirm_password }}
+            </div>
+
+            <button type="submit">Register</button>
+        </form>
+        <div class="register-link">
+            <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+        </div>
+    </div>
+</body>
+</html>

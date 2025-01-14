@@ -1,0 +1,85 @@
+<!-- chat.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body class="chatbot-page">
+    <div class="sidebar">
+        <a href="{% url 'dashboard' %}">
+            <img src="{% static 'images/dashboard.png' %}" alt="Dashboard">
+        </a>
+        <a href="{% url 'chat' %}" class="active">
+            <img src="{% static 'images/chatbot.png' %}" alt="Chatbot">
+        </a>
+        <a href="{% url 'logout' %}">
+            <img src="{% static 'images/logout.png' %}" alt="Logout" class="logout-img">
+        </a>
+    </div>
+    <div class="main-content">
+        <h1>Welcome to the Chat Page</h1>
+
+        <!-- Chat History Section -->
+        <div class="chat-history">
+            <h3>Chatbot Interaction Log</h3>
+            <ul>
+                {% for chat in chat_history %}
+                    <li>
+                        <p><strong>User:</strong> {{ chat.message }}</p>
+                        <p><strong>Bot:</strong> {{ chat.response }}</p>
+                        <p><small>{{ chat.timestamp }}</small></p>
+                    </li>
+                {% empty %}
+                    <li>No chats yet.</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Chat with Bot Section (Single Form) -->
+        <div class="chat-container">
+            <div class="chat-output">
+                <ul id="chatMessages" class="messages">
+                    <!-- Messages will be dynamically loaded here -->
+                </ul>
+            </div>
+            <div class="chat-input-container">
+                <form id="chatForm">
+                    {% csrf_token %}
+                    <input type="text" id="chatInput" class="chat-input" name="message" placeholder="Type your message here..." required>
+                    <button type="submit" id="sendButton">Send</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Form submission to send chat message
+        document.getElementById('chatForm').addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevent form from refreshing the page
+            let message = document.getElementById('chatInput').value;
+            fetch("{% url 'chat' %}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}',
+                },
+                body: JSON.stringify({ message: message })
+            })
+            .then(response => response.json())
+            .then(data => {
+                let messageElement = document.createElement('li');
+                messageElement.innerHTML = `<strong>User:</strong> ${message} <br> <strong>Bot:</strong> ${data.response}`;
+                document.getElementById('chatMessages').appendChild(messageElement);
+                document.getElementById('chatInput').value = ''; // Clear input field after sending
+            })
+            .catch(error => {
+                console.error('Error sending message:', error);
+            });
+        });
+    </script>
+</body>
+</html>

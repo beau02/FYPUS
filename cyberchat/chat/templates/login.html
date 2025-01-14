@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        body.login-page {
+            background-image: url("{% static 'images/login2.jpg' %}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+        }
+    </style>
+</head>
+<body class="login-page">
+    <div class="login-container">
+        <div class="login-card">
+            <h2>Login</h2>
+            <form action="{% url 'login' %}" method="post">
+                {% csrf_token %}
+                <label for="username">Username:</label>
+                <input type="text" name="username" id="username" required>
+                
+                <label for="password">Password:</label>
+                <input type="password" name="password" id="password" required>
+                
+                <button type="submit">Login</button>
+            </form>
+            <p class="register-link">Don't have an account? <a href="{% url 'register' %}">Join now</a></p>
+        </div>
+    </div>
+</body>
+</html>

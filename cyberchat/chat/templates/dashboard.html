@@ -1,0 +1,81 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body class="dashboard-page">
+    <div class="sidebar">
+        <a href="{% url 'dashboard' %}">
+            <img src="{% static 'images/dashboard.png' %}" alt="Dashboard">
+        </a>
+        <a href="{% url 'chat' %}" class="active">
+            <img src="{% static 'images/chatbot.png' %}" alt="Chatbot">
+        </a>
+        <a href="{% url 'logout' %}">
+            <img src="{% static 'images/logout.png' %}" alt="Logout" class="logout-img">
+        </a>
+    </div>
+    <div class="dashboard-container">
+        <!-- Security Overview -->
+        <div class="overview">
+            <h2>Security Overview</h2>
+            <div class="status">
+                <p><strong>Threat Level:</strong> {{ threat_level }}</p>
+                <p><strong>Total Threats Detected:</strong> {{ threat_count }}</p>
+            </div>
+        </div>
+
+       <!-- Recent Threats -->
+<div class="recent-threats">
+    <h3>Recent Threats</h3>
+    <ul>
+        {% for threat in threats %}
+            <li>
+                <p><strong>Type:</strong> {{ threat.threat_type }}</p>
+                <p><strong>Details:</strong> {{ threat.details }}</p>
+                <p><strong>Detected On:</strong> {{ threat.detection_time }}</p>
+                <p><strong>Suggested Actions:</strong></p>
+                <ul>
+                    {% if threat.threat_type == "Phishing" %}
+                        <li>Do not click on suspicious links.</li>
+                        <li>Report the email to your administrator.</li>
+                    {% elif threat.threat_type == "Malware" %}
+                        <li>Run a full system scan with antivirus software.</li>
+                        <li>Isolate the infected system from the network.</li>
+                    {% elif threat.threat_type == "Unauthorized Access" %}
+                        <li>Change your password immediately.</li>
+                        <li>Enable two-factor authentication (2FA).</li>
+                    {% else %}
+                        <li>No specific actions available for this threat.</li>
+                    {% endif %}
+                </ul>
+            </li>
+        {% empty %}
+            <li>No threats detected recently.</li>
+        {% endfor %}
+    </ul>
+</div>
+
+
+        <!-- Chatbot Interaction Log -->
+        <div class="chat-history">
+            <h3>Chatbot Interaction Log</h3>
+            <ul>
+                {% for chat in chat_history %}
+                    <li>
+                        <p><strong>User:</strong> {{ chat.message }}</p>
+                        <p><strong>Bot:</strong> {{ chat.response }}</p>
+                        <p><small>{{ chat.timestamp }}</small></p>
+                    </li>
+                {% empty %}
+                    <li>No chats yet.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

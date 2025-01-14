@@ -1,0 +1,451 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+/* General styles */
+select {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Sidebar styles */
+.sidebar {
+    width: 80px;
+    background-color: #74B72E;
+    color: white;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+    box-sizing: border-box;
+}
+
+.sidebar a {
+    width: 100%;
+    padding: 10px 0;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.sidebar img {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 5px;
+}
+
+.sidebar a:hover img {
+    border: 2px solid #575757;
+    background-color: #f2f2f2;
+    border-radius: 5px;
+}
+
+/* Sidebar logout image */
+.logout-img {
+    width: 40px;  /* Adjust the width to match the other icons */
+    height: 40px; /* Adjust the height to match the other icons */
+    margin-top: auto; /* Push it to the bottom of the sidebar */
+    border-radius: 5px;
+}
+
+.logout-img:hover {
+    border: 2px solid #575757; /* Optional: Add hover effect similar to other images */
+    background-color: #f2f2f2; /* Optional: Add a subtle background color on hover */
+    border-radius: 5px;
+}
+
+/* Login page styles */
+body.login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f4f4;
+    margin: 0;
+}
+
+.login-card {
+    background-color: lightgray;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    width: 300px;
+    box-sizing: border-box;
+    margin: 0 auto; /* Center the card */
+    text-align: center; /* Center content inside the card */
+}
+
+.login-card form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Add spacing between form elements */
+}
+
+.login-card input {
+    width: 90%; /* Reduce the input width to not touch edges */
+    margin: 0 auto; /* Center the input */
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.login-card h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+    text-align: center; /* Explicitly center the title */
+}
+
+.login-card label {
+    display: block;
+    margin-bottom: 5px;
+    text-align: left;
+    color: #555;
+}
+
+
+.login-card button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.login-card button:hover {
+    background-color: #45a049;
+}
+
+/* Register page styles */
+body.register-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f4f4;
+    margin: 0;
+}
+
+.register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.register-card {
+    background-color: lightgray;
+    padding: 30px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    width: 400px; /* Width for better fit */
+    box-sizing: border-box;
+    margin: 0 auto;
+}
+
+.register-card h2 {
+    margin-top: 0;
+    margin-bottom: 30px;
+    font-size: 28px;
+    color: #333;
+    text-align: center;
+}
+
+.register-card .form-group {
+    display: block; /* Ensure each label-input pair is on its own line */
+    margin-bottom: 20px; /* Increased spacing between fields */
+}
+
+.register-card .form-group label {
+    display: block; /* Ensure the label is on a new line */
+    margin-bottom: 8px;
+    font-size: 16px;
+    color: #555;
+}
+
+.register-card .form-group input {
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%; /* Make input fields full width */
+    box-sizing: border-box;
+}
+
+.register-card .error {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.register-card button {
+    width: 100%;
+    padding: 12px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px; /* Add margin to separate from inputs */
+}
+
+.register-card button:hover {
+    background-color: #45a049;
+}
+
+.register-link {
+    margin-top: 20px;
+    font-size: 1em;
+    color: #555;
+    text-align: center;
+}
+
+.register-link a {
+    color: #4CAF50;
+    text-decoration: none;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive styles */
+@media (max-width: 600px) {
+    .register-card {
+        width: 80%;
+    }
+
+    .register-card button {
+        padding: 12px;
+        font-size: 18px;
+    }
+}
+/* Dashboard specific styles */
+.dashboard-page {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: 100vh;
+    padding-top: 20px;
+}
+
+.dashboard-container {
+    width: 80%;
+    max-width: 1200px;
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.overview, .recent-threats, .chat-history, .chatbot-container {
+    margin-bottom: 30px;
+}
+
+h2, h3 {
+    color: #333;
+}
+
+.status, .chat-history ul, .recent-threats ul {
+    padding-left: 20px;
+}
+
+.status p, .chat-history li, .recent-threats li {
+    margin: 5px 0;
+}
+
+textarea {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+#bot_response {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #e1e1e1;
+    border-radius: 5px;
+}
+
+/* Chat page styles */
+body.chatbot-page {
+    display: flex;
+    height: 100vh;
+    margin: 0;
+    background-color: #f4f4f4;
+}
+
+* Main content area */
+body.chatbot-page {
+    display: flex;
+    height: 100vh;
+    margin: 0;
+    background-color: #f4f4f4;
+}
+
+.main-content {
+    margin-left: 80px; /* Adjust for sidebar width */
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: calc(100% - 80px); /* Adjust width to avoid overlap with sidebar */
+}
+
+/* Header */
+h1 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+/* Chat history */
+.chat-history {
+    width: 100%;
+    max-width: 800px;
+    margin-bottom: 20px;
+}
+
+.chat-history h3 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.chat-history ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.chat-history li {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+/* Chat container (input and messages) */
+.chat-container {
+    background-color: white;
+    width: 100%;
+    max-width: 800px;
+    height: 60%; /* Adjust height for chat interface */
+    display: flex;
+    flex-direction: column;
+    border-radius: 5px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+/* Chat output */
+.chat-output {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
+    border-bottom: 1px solid #ccc;
+    max-height: 400px;
+}
+
+/* Input container */
+.chat-input-container {
+    display: flex;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-top: 1px solid #ccc;
+}
+
+/* Chat input field */
+.chat-input {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+/* Send button */
+#sendButton {
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+#sendButton:hover {
+    background-color: #45a049;
+}
+
+/* Chat messages styles */
+.message {
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    max-width: 80%;
+    word-wrap: break-word;
+}
+
+.user-message {
+    background-color: #e1ffc7;
+    align-self: flex-end;
+}
+
+.bot-message {
+    background-color: #f1f1f1;
+    align-self: flex-start;
+}
+
+.messages {
+    list-style: none;
+    padding: 0;
+}
+
+.messages li {
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+}
+
+.messages .success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.messages .error {
+    background-color: #f8d7da;
+    color: #721c24;
+}
