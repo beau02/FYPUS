@@ -134,3 +134,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # Session data stored in the database
 CSRF_COOKIE_SECURE = False  # For development purposes, ensure this is False
 CSRF_COOKIE_HTTPONLY = False  # Optional: for development purposes
+
+OPENAI_API_KEY = "your-openai-api-key-here"

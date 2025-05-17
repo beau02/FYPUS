@@ -3,11 +3,14 @@ from django.shortcuts import render, redirect
 from .forms import RegistrationForm, LoginForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .models import ChatHistory, ThreatDetection, UserProfile
+from .models import ChatHistory, Threat, UserProfile
 from django.http import JsonResponse
 from datetime import datetime
 from django.utils.timezone import now
 import openai
+from django.conf import settings
+from .utils import monitor_system, detect_threat, generate_recommendation
+
 
 # Set up your OpenAI API key
 openai.api_key = 'your-openai-api-key-here'
@@ -58,9 +61,12 @@ def logout_view(request):
 @login_required
 def dashboard(request):
     user = request.user
-    threats = ThreatDetection.objects.filter(user=user).order_by('-detection_time')[:10]
+
+    # Fetch threats and chat history
+    threats = Threat.objects.filter(user=user).order_by('-detection_time')[:10]  # <-- Change ThreatDetection to Threat
     chat_history = ChatHistory.objects.filter(user=user).order_by('-timestamp')[:10]
 
+    # Calculate threat level
     threat_count = threats.count()
     if threat_count == 0:
         threat_level = "Low"
@@ -69,6 +75,7 @@ def dashboard(request):
     else:
         threat_level = "High"
 
+    # Prepare context for the dashboard
     context = {
         'threats': threats,
         'chat_history': chat_history,
@@ -121,3 +128,54 @@ def chatbot(request):
 def chat_view(request):
     chat_history = ChatHistory.objects.filter(user=request.user).order_by('-timestamp')[:10]
     return render(request, 'chat.html', {'chat_history': chat_history})
+
+# Monitor and Detect View (System monitoring and threat detection)
+@login_required
+def monitor_and_detect_view(request):
+    user = request.user
+    context = {}
+
+    if request.method == 'POST':
+        try:
+            # Get system data
+            system_data = monitor_system()
+            
+            # Detect threats using AI
+            threat_description = detect_threat(system_data)
+            
+            # Generate recommendations
+            recommendation = generate_recommendation(threat_description)
+            
+            # Save the threat detection
+            threat = Threat.objects.create(
+                user=user,
+                threat_type="System Analysis",
+                details=threat_description,
+                recommendation=recommendation
+            )
+
+            context['monitoring_results'] = system_data
+            context['detected_threat'] = threat
+            messages.success(request, "Monitoring completed successfully.")
+            
+        except Exception as e:
+            messages.error(request, f"Error during monitoring: {str(e)}")
+    
+    return render(request, 'monitor.html', context)
+
+def analyze_message_for_threat(message):
+    # Send message to ChatGPT for threat analysis
+    openai.api_key = settings.OPENAI_API_KEY
+    prompt = (
+        "You are a cybersecurity assistant. Analyze the following message for threats. "
+        "If you detect a threat, respond with the threat type (e.g., Phishing, Malware, Unauthorized Access) "
+        "and a brief explanation. If no threat, respond with 'No threat detected.'\n\n"
+        f"Message: {message}\n"
+    )
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[{"role": "user", "content": prompt}],
+        max_tokens=100,
+        temperature=0
+    )
+    return response['choices'][0]['message']['content']

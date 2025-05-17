@@ -1,0 +1,76 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Threat Monitoring</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body class="monitor-page">
+    <!-- Messages Section -->
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+            <button type="button" class="close-btn" onclick="this.parentElement.style.display='none'">&times;</button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="monitor-container">
+        <h1>System Security Monitor</h1>
+        
+        <!-- Monitoring Form -->
+        <div class="monitoring-section">
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="monitor-btn">Start System Scan</button>
+            </form>
+        </div>
+
+        <!-- Monitoring Results -->
+        {% if monitoring_results %}
+        <div class="monitoring-results">
+            <h2>System Status</h2>
+            <div class="result-item">
+                <h3>Resource Usage</h3>
+                <ul>
+                    <li>CPU Usage: {{ monitoring_results.cpu_usage }}%</li>
+                    <li>Memory Usage: {{ monitoring_results.memory.percent }}%</li>
+                    <li>Disk Usage: {{ monitoring_results.disk.percent }}%</li>
+                </ul>
+            </div>
+            
+            {% if detected_threat %}
+            <div class="detected-threat">
+                <h3>Security Alert</h3>
+                <p><strong>Threat Type:</strong> {{ detected_threat.threat_type }}</p>
+                <p><strong>Details:</strong> {{ detected_threat.details }}</p>
+                <p><strong>Recommended Action:</strong> {{ detected_threat.recommendation }}</p>
+                <p><strong>Detection Time:</strong> {{ detected_threat.detection_time }}</p>
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        <div class="actions">
+            <a href="{% url 'dashboard' %}" class="back-btn">Back to Dashboard</a>
+        </div>
+    </div>
+
+    <script>
+        // Auto-hide messages after 5 seconds
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(function() {
+                var messages = document.querySelectorAll('.alert');
+                messages.forEach(function(message) {
+                    message.style.display = 'none';
+                });
+            }, 5000);
+        });
+    </script>
+</body>
+</html>
